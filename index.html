@@ -1,10 +1,191 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Hueberry</title>
-<meta http-equiv="refresh" content="0; url=privacy.html">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hueberry: One color is wrong. Can you fix it?</title>
+<meta name="description" content="Hueberry is a color game: every picture hides one wrong color. Slide hue, saturation and brightness until it looks right. Free on iPhone and Android.">
+<meta name="theme-color" content="#121216">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:title" content="Hueberry: One color is wrong. Can you fix it?">
+<meta property="og:description" content="A color game that tests how well you really see color. Free on iPhone and Android.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://olivera2708.github.io/hueberry-legal/">
+<meta property="og:image" content="https://olivera2708.github.io/hueberry-legal/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{
+    --bg:#121216; --ink:#f6f4f8; --muted:#a9a6b3; --line:rgba(255,255,255,.1);
+    --pink:#ff5ca8; --orange:#ff7f5a; --yellow:#ffc53a; --green:#30c072; --teal:#17b2ab; --violet:#7c5cff; --purple:#b05ee0; --blue:#3f80f0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    color:var(--ink);background:var(--bg);min-height:100dvh;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  }
+  /* glow + floating berries */
+  .bg{position:fixed;inset:0;z-index:-1;overflow:hidden;
+      background:radial-gradient(90% 55% at 50% -5%,rgba(176,40,110,.55),transparent 70%),radial-gradient(60% 40% at 100% 100%,rgba(124,92,255,.22),transparent 70%),var(--bg)}
+  .berry{position:absolute;border-radius:50%;opacity:.9;animation:float 9s ease-in-out infinite alternate;
+         box-shadow:inset -6px -8px 14px rgba(0,0,0,.25)}
+  .berry::after{content:"";position:absolute;width:26%;height:26%;left:22%;top:18%;border-radius:50%;background:rgba(255,255,255,.35)}
+  @keyframes float{to{transform:translateY(-22px) rotate(8deg)}}
+  @media (prefers-reduced-motion:reduce){.berry{animation:none}}
+
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+  header.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:clamp(40px,8vh,84px) 0 28px;gap:18px}
+  .icon{width:108px;height:108px;border-radius:24px;box-shadow:0 18px 50px rgba(255,92,168,.35),0 0 0 1px var(--line);animation:bob 4s ease-in-out infinite alternate}
+  @keyframes bob{to{transform:translateY(-6px)}}
+  .name{font-weight:800;letter-spacing:4px;text-transform:uppercase;font-size:.8rem;color:var(--ink);
+        background:var(--pink);padding:7px 16px;border-radius:99px}
+  h1{font-size:clamp(2.3rem,7.5vw,4rem);line-height:1.02;font-weight:900;letter-spacing:-1px;max-width:14ch}
+  h1 .w{color:var(--pink)}
+  .sub{color:var(--muted);font-size:clamp(1rem,2.6vw,1.15rem);line-height:1.5;max-width:42ch}
+
+  .stores{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:6px}
+  .store{display:flex;align-items:center;gap:12px;padding:13px 22px;border-radius:16px;text-decoration:none;color:var(--ink);
+         background:rgba(255,255,255,.07);border:1px solid var(--line);font-weight:800;font-size:1.05rem;min-width:200px;justify-content:center;
+         transition:transform .15s,background .2s}
+  .store:hover{transform:translateY(-2px);background:rgba(255,255,255,.12)}
+  .store svg{width:24px;height:24px;flex:none}
+  .store .t{text-align:left;line-height:1.1}
+  .store small{display:block;font-size:.68rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+  .store.primary{background:#fff;color:#141418;border-color:transparent;box-shadow:0 14px 40px rgba(255,92,168,.35);font-size:1.15rem;padding:16px 28px}
+  .store.primary small{color:#6b6878}
+  .free{color:var(--muted);font-size:.85rem}
+
+  /* screenshots */
+  .shots{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:22px;padding:26px 22px 34px;scrollbar-width:none;
+         -webkit-mask:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent)}
+  .shots::-webkit-scrollbar{display:none}
+  .shots img{flex:none;width:min(62vw,250px);aspect-ratio:1206/2622;border-radius:26px;scroll-snap-align:start;
+             box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 0 1px var(--line);background:#1d1d23}
+
+  /* features */
+  .feats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;padding:8px 0 40px}
+  .feat{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:20px;padding:18px 16px;display:flex;flex-direction:column;gap:6px}
+  .feat .dot{width:14px;height:14px;border-radius:50%}
+  .feat b{font-size:1.05rem}
+  .feat span{color:var(--muted);font-size:.88rem;line-height:1.35}
+
+  .cta{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:10px 0 50px}
+  .cta h2{font-size:clamp(1.5rem,4.5vw,2rem);font-weight:900}
+  footer{border-top:1px solid var(--line);padding:22px;display:flex;gap:22px;justify-content:center;font-size:.85rem}
+  footer a{color:var(--muted);text-decoration:none}
+  footer a:hover{color:var(--ink)}
+</style>
 </head>
-<body><p><a href="privacy.html">Hueberry Privacy Policy</a></p></body>
+<body>
+<div class="bg" aria-hidden="true">
+  <i class="berry" style="width:46px;height:46px;background:var(--violet);top:14%;left:7%"></i>
+  <i class="berry" style="width:30px;height:30px;background:var(--yellow);top:9%;right:12%;animation-delay:-3s"></i>
+  <i class="berry" style="width:58px;height:58px;background:var(--teal);top:52%;right:-14px;animation-delay:-5s"></i>
+  <i class="berry" style="width:24px;height:24px;background:var(--orange);top:30%;left:3%;animation-delay:-2s"></i>
+  <i class="berry" style="width:36px;height:36px;background:var(--green);bottom:12%;left:10%;animation-delay:-6s"></i>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <img class="icon" src="assets/icon.png" alt="Hueberry app icon" width="108" height="108">
+    <span class="name">Hueberry</span>
+    <h1>One color is <span class="w">wrong</span>. Can you fix it?</h1>
+    <p class="sub">Every picture hides one wrong color. Slide hue, saturation and brightness until it looks right, and see how close you got.</p>
+    <div class="stores" data-stores>
+      <a class="store ios" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+        <span class="t"><small>Download on the</small>App Store</span>
+      </a>
+      <a class="store android" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l14 9-14 9z"/></svg>
+        <span class="t"><small>Get it on</small>Google Play</span>
+      </a>
+    </div>
+    <p class="free">Free to play · No account needed</p>
+  </header>
+</div>
+
+<div class="shots" id="shots" aria-label="Screenshots">
+  <img src="assets/shot-1.webp" alt="One color is wrong. Can you fix it?" loading="eager">
+  <img src="assets/shot-2.webp" alt="Party mode for friends" loading="lazy">
+  <img src="assets/shot-3.webp" alt="Know your colors: flags, signs and iconic things" loading="lazy">
+  <img src="assets/shot-4.webp" alt="Train your eye with 6 puzzle types" loading="lazy">
+  <img src="assets/shot-5.webp" alt="Daily color challenge" loading="lazy">
+  <img src="assets/shot-6.webp" alt="Your color eye stats" loading="lazy">
+  <img src="assets/shot-7.webp" alt="Achievements" loading="lazy">
+  <img src="assets/shot-8.webp" alt="Available in 20 languages" loading="lazy">
+</div>
+
+<div class="wrap">
+  <section class="feats">
+    <div class="feat"><i class="dot" style="background:var(--pink)"></i><b>2,000+ levels</b><span>Flags, signs, iconic things and color names, up to 3 stars each.</span></div>
+    <div class="feat"><i class="dot" style="background:var(--orange)"></i><b>Party mode</b><span>Game night on one phone for 3 or more players.</span></div>
+    <div class="feat"><i class="dot" style="background:var(--yellow)"></i><b>Daily challenge</b><span>5 new colors every day, the same for everyone.</span></div>
+    <div class="feat"><i class="dot" style="background:var(--green)"></i><b>Train your eye</b><span>Match, memory, gradient, mixing, opposite and shades.</span></div>
+    <div class="feat"><i class="dot" style="background:var(--violet)"></i><b>Your color eye</b><span>See which colors you nail and which ones trick you.</span></div>
+    <div class="feat"><i class="dot" style="background:var(--blue)"></i><b>20 languages</b><span>Plus 100 achievements and an endless mode.</span></div>
+  </section>
+
+  <section class="cta">
+    <h2>How good is your eye, really?</h2>
+    <div class="stores" data-stores>
+      <a class="store ios" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+        <span class="t"><small>Download on the</small>App Store</span>
+      </a>
+      <a class="store android" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l14 9-14 9z"/></svg>
+        <span class="t"><small>Get it on</small>Google Play</span>
+      </a>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <a href="privacy.html">Privacy</a>
+  <a href="terms.html">Terms</a>
+  <a href="support.html">Support</a>
+</footer>
+
+<script>
+  // ---- Store links ----
+  var APP_STORE  = "https://apps.apple.com/app/id6834162335";
+  var PLAY_STORE = "https://play.google.com/store/apps/details?id=com.hueberry.app";
+
+  var ua = navigator.userAgent || "";
+  var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/i.test(ua);
+
+  // ?go jumps straight to the right store on a phone (for the shortest path from a bio link).
+  if (/[?&]go\b/.test(location.search) && (isIOS || isAndroid)) {
+    location.replace(isIOS ? APP_STORE : PLAY_STORE);
+  }
+
+  document.querySelectorAll("[data-stores]").forEach(function(box){
+    var ios = box.querySelector(".ios"), android = box.querySelector(".android");
+    ios.href = APP_STORE; android.href = PLAY_STORE;
+    // On a phone, show only that phone's store, as the big button.
+    if (isIOS || isAndroid) {
+      var mine = isIOS ? ios : android, other = isIOS ? android : ios;
+      mine.classList.add("primary");
+      mine.querySelector("small").textContent = "Free on the";
+      if (isAndroid) mine.querySelector("small").textContent = "Free on";
+      other.remove();
+    }
+  });
+
+  // Gentle auto-scroll of screenshots; stops for good once the visitor touches them.
+  (function(){
+    var el = document.getElementById("shots"), stop = false;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    ["pointerdown","wheel","touchstart"].forEach(function(e){ el.addEventListener(e, function(){ stop = true; }, {passive:true}); });
+    setInterval(function(){
+      if (stop || el.scrollWidth <= el.clientWidth) return;
+      var step = el.querySelector("img").offsetWidth + 16;
+      var atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+      el.scrollTo({left: atEnd ? 0 : el.scrollLeft + step, behavior:"smooth"});
+    }, 2800);
+  })();
+</script>
+</body>
 </html>
