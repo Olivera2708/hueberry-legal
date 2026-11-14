@@ -30,11 +30,14 @@
   .berry{position:absolute;border-radius:50%;opacity:.9;animation:float 9s ease-in-out infinite alternate;
          box-shadow:inset -6px -8px 14px rgba(0,0,0,.25)}
   .berry::after{content:"";position:absolute;width:26%;height:26%;left:22%;top:18%;border-radius:50%;background:rgba(255,255,255,.35)}
+  .berries{position:absolute;inset:0;pointer-events:none;z-index:-1;--top:clamp(40px,8vh,84px)}
+  .berry.wide{display:none}
+  @media (min-width:900px){.berry.wide{display:block}}
   @keyframes float{to{transform:translateY(-22px) rotate(8deg)}}
   @media (prefers-reduced-motion:reduce){.berry{animation:none}}
 
   .wrap{max-width:1080px;margin:0 auto;padding:0 22px}
-  header.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:clamp(40px,8vh,84px) 0 28px;gap:18px}
+  header.hero{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:clamp(40px,8vh,84px) 0 28px;gap:18px}
   .icon{width:108px;height:108px;border-radius:24px;box-shadow:0 18px 50px rgba(255,92,168,.35),0 0 0 1px var(--line);animation:bob 4s ease-in-out infinite alternate}
   @keyframes bob{to{transform:translateY(-6px)}}
   .name{font-weight:800;letter-spacing:4px;text-transform:uppercase;font-size:.8rem;color:var(--ink);
@@ -77,16 +80,18 @@
 </style>
 </head>
 <body>
-<div class="bg" aria-hidden="true">
-  <i class="berry" style="width:46px;height:46px;background:var(--violet);top:14%;left:7%"></i>
-  <i class="berry" style="width:30px;height:30px;background:var(--yellow);top:9%;right:12%;animation-delay:-3s"></i>
-  <i class="berry" style="width:58px;height:58px;background:var(--teal);top:52%;right:-14px;animation-delay:-5s"></i>
-  <i class="berry" style="width:24px;height:24px;background:var(--orange);top:30%;left:3%;animation-delay:-2s"></i>
-  <i class="berry" style="width:36px;height:36px;background:var(--green);bottom:12%;left:10%;animation-delay:-6s"></i>
-</div>
+<div class="bg" aria-hidden="true"></div>
 
 <div class="wrap">
   <header class="hero">
+    <div class="berries" aria-hidden="true">
+      <i class="berry" style="width:40px;height:40px;background:var(--violet);top:calc(var(--top) + 6px);left:calc(50% - 165px)"></i>
+      <i class="berry" style="width:22px;height:22px;background:var(--orange);top:calc(var(--top) + 84px);left:calc(50% - 112px);animation-delay:-2s"></i>
+      <i class="berry" style="width:26px;height:26px;background:var(--yellow);top:calc(var(--top) - 4px);left:calc(50% + 100px);animation-delay:-3s"></i>
+      <i class="berry" style="width:34px;height:34px;background:var(--teal);top:calc(var(--top) + 66px);left:calc(50% + 128px);animation-delay:-5s"></i>
+      <i class="berry wide" style="width:38px;height:38px;background:var(--green);top:58%;left:4%;animation-delay:-6s"></i>
+      <i class="berry wide" style="width:52px;height:52px;background:var(--pink);top:46%;right:3%;animation-delay:-4s"></i>
+    </div>
     <img class="icon" src="assets/icon.png" alt="Hueberry app icon" width="108" height="108">
     <span class="name">Hueberry</span>
     <h1>One color is <span class="w">wrong</span>. Can you fix it?</h1>
